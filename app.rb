@@ -23,17 +23,15 @@ get '/' do
   haml :index
 end
 
-get '/:size' do
+# get '/:color1/:color2/:color3/:color4/:color5' do
+get '/:color1' do
   begin
-    wh, format = params[:size].downcase.split('.')
+    # TODO grab the format and size from somewhere
     format = FORMATS[format] || 'png'
-    width, height = wh.split('x').map { |wat| wat.to_i }
-    height = width unless height
-    imgs = Magick::ImageList.new 
-    imgs.new_image(width, height) { self.background_color = "red" }
-    imgs.new_image(width, height) { self.background_color = "yellow" }
-    imgs.new_image(width, height) { self.background_color = "green" }
+    height = 100
+    width = 100
 
+    imgs = make_imageList(params[:color1])
     content_type "image/#{format}"
     img = imgs.append(false)
     img.format = format
@@ -44,8 +42,50 @@ get '/:size' do
   end
 
 end
+get '/:color1/:color2' do
+  format = FORMATS[format] || 'png'
+  imgs = make_imageList(params[:color1], params[:color2])
+  content_type "image/#{format}"
+  img = imgs.append(false)
+  img.format = format
+  img.to_blob
+end
+get '/:color1/:color2/:color3' do
+  format = FORMATS[format] || 'png'
+  imgs = make_imageList(params[:color1], params[:color2], params[:color3])
+  content_type "image/#{format}"
+  img = imgs.append(false)
+  img.format = format
+  img.to_blob
+end
+get '/:color1/:color2/:color3/:color4' do
+  format = FORMATS[format] || 'png'
+  imgs = make_imageList(params[:color1], params[:color2], params[:color3], params[:color4])
+  content_type "image/#{format}"
+  img = imgs.append(false)
+  img.format = format
+  img.to_blob
+end
+get '/:color1/:color2/:color3/:color4/:color5' do
+  format = FORMATS[format] || 'png'
+  imgs = make_imageList(params[:color1], params[:color2], params[:color3], params[:color4], params[:color5])
+  content_type "image/#{format}"
+  img = imgs.append(false)
+  img.format = format
+  img.to_blob
+end
 
 private
+
+def make_imageList(color1="#BADA55", color2="transparent", color3="transparent", color4="transparent", color5="transparent", width=100, height=100)
+  imgs = Magick::ImageList.new
+  imgs.new_image(width, height) { self.background_color = color1 }
+  imgs.new_image(width, height) { self.background_color = color2 }
+  imgs.new_image(width, height) { self.background_color = color3 }
+  imgs.new_image(width, height) { self.background_color = color4 }
+  imgs.new_image(width, height) { self.background_color = color5 }
+  return imgs
+end
 
 def color_convert(original)
   if original
