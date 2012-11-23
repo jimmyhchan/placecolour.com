@@ -27,42 +27,27 @@ get '/:color1' do
   # TODO grab the format and size from somewhere
   format = FORMATS[format] || 'png'
   imgs = make_imageList(params[:color1])
-  content_type "image/#{format}"
-  img = imgs.append(false)
-  img.format = format
-  img.to_blob
+  imgList_to_blob(imgs, format)
 end
 get '/:color1/:color2' do
   format = FORMATS[format] || 'png'
   imgs = make_imageList(params[:color1], params[:color2])
-  content_type "image/#{format}"
-  img = imgs.append(false)
-  img.format = format
-  img.to_blob
+  imgList_to_blob(imgs, format)
 end
 get '/:color1/:color2/:color3' do
   format = FORMATS[format] || 'png'
   imgs = make_imageList(params[:color1], params[:color2], params[:color3])
-  content_type "image/#{format}"
-  img = imgs.append(false)
-  img.format = format
-  img.to_blob
+  imgList_to_blob(imgs, format)
 end
 get '/:color1/:color2/:color3/:color4' do
   format = FORMATS[format] || 'png'
   imgs = make_imageList(params[:color1], params[:color2], params[:color3], params[:color4])
-  content_type "image/#{format}"
-  img = imgs.append(false)
-  img.format = format
-  img.to_blob
+  imgList_to_blob(imgs, format)
 end
 get '/:color1/:color2/:color3/:color4/:color5' do
   format = FORMATS[format] || 'png'
   imgs = make_imageList(params[:color1], params[:color2], params[:color3], params[:color4], params[:color5])
-  content_type "image/#{format}"
-  img = imgs.append(false)
-  img.format = format
-  img.to_blob
+  imgList_to_blob(imgs, format)
 end
 
 private
@@ -77,6 +62,12 @@ def make_imageList(color1="#BADA55", color2="transparent", color3="transparent",
   return imgs
 end
 
+def imgList_to_blob(imgList, format)
+  content_type "image/#{format}"
+  img = imgList.append(false)
+  img.format = format
+  return img.to_blob
+end
 def color_convert(original)
   # http://en.wikipedia.org/wiki/X11_color_names
   # http://cvsweb.xfree86.org/cvsweb/*checkout*/xc/programs/rgb/rgb.txt?rev=1.2
