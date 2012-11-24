@@ -1,4 +1,4 @@
-placecolor.it
+placecolour.com
 =============
 
 placeholder.it + colourlovers
