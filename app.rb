@@ -20,6 +20,7 @@ FORMATS = {
 }
 #Application routes
 get '/' do
+  # in production i'm just using a static index file
   haml :index
 end
 
