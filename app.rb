@@ -20,8 +20,8 @@ FORMATS = {
 }
 #Application routes
 get '/' do
-  # in production i'm just using a static index file
-  haml :index
+  # just using a static index file
+  send_file File.join(settings.public_folder, 'index.html')
 end
 
 get '/:color1' do
